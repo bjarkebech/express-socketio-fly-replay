@@ -39,6 +39,8 @@ If not a replay must be performed.
 The Socket.io server-side API doesn't provide a way to intercept and modify HTTP headers for the WebSocket `upgrade` request. So we need to hook into the Node.js server directly, and handle `upgrade` requests manually. This is [the same approach taken by Fly.io](https://github.com/fly-apps/replicache-websocket/blob/63cc00ad4875ce1a20780b7705ad72a4fd7c62f3/replicache-express/src/index.ts#L123) in the Replicache example that inspired this solution.
 
 The fix is as follows. See app.js for a complete example.
+
+**Server:**
 ```js
 server.on("upgrade", function (req, socket, head) {
   if(req.headers["upgrade"] !== "websocket") return;
@@ -60,5 +62,16 @@ server.on("upgrade", function (req, socket, head) {
   ];
   
   socket.end(headers.concat("\r\n").join("\r\n"));
+});
+```
+
+**Client:**
+```js
+// Note the fly-force-instance-id header as well, which will route
+// the handshake and polling HTTP requests to the right server.
+
+const socket = io({
+  query: { "fly_instance_id": FLY_INSTANCE_ID }, 
+  extraHeaders: { "fly-force-instance-id": FLY_INSTANCE_ID } 
 });
 ```
