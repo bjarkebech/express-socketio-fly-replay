@@ -1,6 +1,6 @@
 # Using multiple Fly.io instances with socket.io and Express.js
 
-Adapted to Node.js and Express from @zauberzeug's Python implementation [fly_fastapi_socketio](https://github.com/zauberzeug/fly_fastapi_socketio).
+Adapted to Node.js and Express from [zauberzeug](https://github.com/zauberzeug)'s Python implementation [fly_fastapi_socketio](https://github.com/zauberzeug/fly_fastapi_socketio).
 
 ## Run Locally
 
