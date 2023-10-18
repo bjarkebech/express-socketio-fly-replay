@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title Fly Socket.io force-instance id
+  body
+    label#label Fly-Instance: #{fly_instance_id}
+    input#counter
+    button#button Increment
+    Label#transport_type Transport: N/A
+    script(src="/socket.io/socket.io.js")
+    script.
+      const url = window.location.protocol === 'https:' ? 'wss://' : 'ws://' + window.location.host;
+      
+      // Note the fly-force-instance-id header as well, which will route
+      // the handshake and polling HTTP requests to the right server.
+      var socket = io({
+        query: { fly_instance_id: "#{fly_instance_id}" }, 
+        extraHeaders: { "fly-force-instance-id": "#{fly_instance_id}" } 
+      });
+
+      var button = document.getElementById('button');
+      var counter = document.getElementById('counter');
+      button.onclick = function () { { socket.emit('click', Number(counter.value || 0) + 1); } };
+      socket.on('heyyo', function (msg) { counter.value = msg; });
+
+      var transport = document.getElementById('transport_type');
+      setInterval(function () {
+          transport.innerHTML = "Transport: " + (socket.io.engine ? socket.io.engine.transport.name : 'N/A');
+      }, 100);
