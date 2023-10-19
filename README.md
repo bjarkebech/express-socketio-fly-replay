@@ -75,3 +75,8 @@ const socket = io({
   extraHeaders: { "fly-force-instance-id": FLY_INSTANCE_ID } 
 });
 ```
+
+## See also
+
+* [fly_fastapi_socketio](https://github.com/zauberzeug/fly_fastapi_socketio). The original Python version.
+* [Real-Time Collaboration with Replicache and Fly-Replay](https://fly.io/blog/replicache-machines-demo/), Fly.io. Inspired the original approach. ([repo](https://github.com/fly-apps/replicache-websocket/))
